@@ -1,0 +1,11 @@
+# Cache and local files
+.cache/
+.npm/
+.vscode/
+.config/
+
+# Node dependencies
+node_modules/
+
+# Mac files
+.DS_Store

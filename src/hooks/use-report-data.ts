@@ -1,0 +1,250 @@
+'use client';
+
+import { useMemo } from 'react';
+import { isWithinInterval, startOfDay, endOfDay, subDays, differenceInDays, startOfMonth, endOfMonth, getDaysInMonth } from 'date-fns';
+import { Transaction, Product, Customer, GameModality } from '@/lib/schemas';
+import { DateRange } from 'react-day-picker';
+
+/**
+ * @fileOverview Hook de inteligência para processamento de KPIs e Metas.
+ * CFO: Implementação de Meta baseada em Break-Even (Custos Totais / Dias do Mês).
+ */
+
+interface UseReportDataProps {
+  transactions: Transaction[];
+  products: Product[];
+  gameModalities: GameModality[];
+  customers: Customer[];
+  date: DateRange | undefined;
+  periodGoal: number;
+}
+
+export const useReportData = ({
+  transactions,
+  products,
+  gameModalities,
+  customers,
+  date,
+  periodGoal,
+}: UseReportDataProps) => {
+  return useMemo(() => {
+    if (!date?.from) return null;
+
+    const from = startOfDay(date.from);
+    const to = endOfDay(date.to || date.from);
+    const interval = { start: from, end: to };
+
+    // 1. Filtragem do Período Selecionado
+    const filteredTransactions = (transactions || []).filter((t) => {
+      const timestamp = (t.timestamp as any)?.toDate ? (t.timestamp as any).toDate() : t.timestamp;
+      return timestamp && isWithinInterval(timestamp, interval);
+    });
+
+    // 2. Lógica CFO: Cálculo de Meta Mensal (Break-Even)
+    const monthStart = startOfMonth(from);
+    const monthEnd = endOfMonth(from);
+    const daysInMonth = Math.max(getDaysInMonth(from), 1);
+    const daysInPeriod = Math.max(differenceInDays(to, from) + 1, 1);
+
+    // Soma TODAS as despesas do mês inteiro para definir o ponto de equilíbrio
+    const totalMonthlyExpenses = (transactions || []).filter((t) => {
+      const timestamp = (t.timestamp as any)?.toDate ? (t.timestamp as any).toDate() : t.timestamp;
+      return t.type === 'expense' && timestamp && isWithinInterval(timestamp, { start: monthStart, end: monthEnd });
+    }).reduce((acc, t) => acc + (t.total || 0), 0);
+
+    const dailyExpenseRate = totalMonthlyExpenses / daysInMonth;
+    const dynamicCostGoal = dailyExpenseRate * daysInPeriod;
+
+    // 3. Comparativo com Período Anterior (Deltas)
+    const daysDiff = differenceInDays(to, from) + 1;
+    const prevFrom = startOfDay(subDays(from, daysDiff));
+    const prevTo = endOfDay(subDays(to, daysDiff));
+    const prevInterval = { start: prevFrom, end: prevTo };
+
+    const prevTransactions = (transactions || []).filter((t) => {
+      const timestamp = (t.timestamp as any)?.toDate ? (t.timestamp as any).toDate() : t.timestamp;
+      return timestamp && isWithinInterval(timestamp, prevInterval);
+    });
+
+    const calculateMetrics = (txs: Transaction[]) => {
+      let revenue = 0;
+      let gameRevenue = 0;
+      let cashInflow = 0;
+      let expenses = 0;
+      let pendingExpenses = 0;
+      let insumos = 0;
+      let salesCount = 0;
+      let cogs = 0;
+
+      txs.forEach((t) => {
+        const isPaid = t.status !== 'pending';
+
+        if (t.type === 'sale') {
+          revenue += (t.total || 0);
+          salesCount++;
+          if (t.paymentMethod !== 'Fiado') {
+            cashInflow += (t.total || 0) - (t.creditApplied || 0);
+          }
+          if (t.items) {
+            t.items.forEach((item: any) => {
+              const isGame = (gameModalities || []).some(gm => gm.id === item.productId) || !!item.identifier;
+              if (isGame) {
+                gameRevenue += (item.unitPrice * item.quantity);
+              }
+
+              const product = (products || []).find((p) => p.id === item.productId);
+              if (product) {
+                const baseUnitSize = product.baseUnitSize || 1;
+                const costPerMl = (product.costPrice || 0) / baseUnitSize;
+                const itemSize = item.size || 1; 
+                const effectiveCost = item.size ? (costPerMl * itemSize) : (product.costPrice || 0);
+                cogs += effectiveCost * (item.quantity || 1);
+              }
+            });
+          }
+        } else if (t.type === 'payment') {
+          cashInflow += (t.total || 0);
+        } else if (t.type === 'expense') {
+          if (isPaid) {
+            expenses += (t.total || 0);
+            if (t.expenseCategory === 'Insumos') insumos += (t.total || 0);
+          } else {
+            pendingExpenses += (t.total || 0);
+          }
+        }
+      });
+
+      const grossProfit = revenue - cogs;
+      const netProfit = grossProfit - expenses; 
+      const avgTicket = salesCount > 0 ? revenue / salesCount : 0;
+
+      return { revenue, gameRevenue, cashInflow, expenses, pendingExpenses, insumos, salesCount, grossProfit, netProfit, avgTicket };
+    };
+
+    const currentMetrics = calculateMetrics(filteredTransactions);
+    const prevMetrics = calculateMetrics(prevTransactions);
+
+    const calculateDelta = (curr: number, prev: number) => {
+      if (prev <= 0) return curr > 0 ? 100 : 0;
+      return ((curr - prev) / prev) * 100;
+    };
+
+    // 4. Mapeamento de Gráficos e Heatmap
+    const topProductsMap = new Map<string, number>();
+    const profitByProductMap = new Map<string, number>();
+    const salesByPaymentMethodMap = new Map<string, number>();
+    const cashInflowByMethodMap = new Map<string, number>();
+    const expensesByCategoryMap = new Map<string, number>();
+    const purchasesBySupplierMap = new Map<string, number>();
+    const heatmapMap = new Map<string, number>();
+    const salesByHourMap = new Map<string, number>();
+
+    filteredTransactions.forEach((t) => {
+      const endTimestamp = (t.timestamp as any)?.toDate ? (t.timestamp as any).toDate() : t.timestamp;
+      if (!endTimestamp) return;
+      
+      const isPaid = t.status !== 'pending';
+
+      if (t.type === 'sale') {
+        const hourLabel = `${String(endTimestamp.getHours()).padStart(2, '0')}:00`;
+        const hourCount = salesByHourMap.get(hourLabel) || 0;
+        salesByHourMap.set(hourLabel, hourCount + (t.total || 0));
+        
+        const day = endTimestamp.getDay();
+        const hour = endTimestamp.getHours();
+        const heatmapKey = `${day}-${hour}`;
+        heatmapMap.set(heatmapKey, (heatmapMap.get(heatmapKey) || 0) + (t.total || 0));
+
+        const method = t.paymentMethod || 'Outros';
+        salesByPaymentMethodMap.set(method, (salesByPaymentMethodMap.get(method) || 0) + (t.total || 0));
+        
+        if (method !== 'Fiado') {
+          cashInflowByMethodMap.set(method, (cashInflowByMethodMap.get(method) || 0) + (t.total || 0) - (t.creditApplied || 0));
+        }
+
+        if (t.items) {
+          t.items.forEach((item: any) => {
+            const product = (products || []).find((p) => p.id === item.productId);
+            const detail = item.doseName || item.subcategory || product?.subcategory;
+            const displayName = detail ? `${item.name} (${detail})` : item.name;
+
+            topProductsMap.set(displayName, (topProductsMap.get(displayName) || 0) + (item.quantity || 1));
+            
+            if (product) {
+                const baseUnitSize = product.baseUnitSize || 1;
+                const costPerMl = (product.costPrice || 0) / baseUnitSize;
+                const itemSize = item.size || 1;
+                const effectiveCost = item.size ? (costPerMl * itemSize) : (product.costPrice || 0);
+                const profit = ((item.unitPrice || 0) - effectiveCost) * (item.quantity || 1);
+                profitByProductMap.set(displayName, (profitByProductMap.get(displayName) || 0) + profit);
+            }
+          });
+        }
+      } else if (t.type === 'payment') {
+        const method = t.paymentMethod || 'Dinheiro';
+        cashInflowByMethodMap.set(method, (cashInflowByMethodMap.get(method) || 0) + (t.total || 0));
+      } else if (t.type === 'expense' && isPaid) {
+        const cat = t.expenseCategory || 'Geral';
+        expensesByCategoryMap.set(cat, (expensesByCategoryMap.get(cat) || 0) + (t.total || 0));
+        if (cat === 'Insumos') {
+            const supplier = t.description?.replace('Compra: ', '') || 'Outros';
+            purchasesBySupplierMap.set(supplier, (purchasesBySupplierMap.get(supplier) || 0) + (t.total || 0));
+        }
+      }
+    });
+
+    // 5. Definição Final da Meta do Cockpit
+    const finalGoal = periodGoal > 0 ? periodGoal : totalMonthlyExpenses;
+    const goalProgress = finalGoal > 0 ? (currentMetrics.revenue / finalGoal) * 100 : (currentMetrics.revenue > 0 ? 100 : 0);
+
+    const salesHeatmapData = [];
+    for (let day = 0; day < 7; day++) {
+      for (let hour = 0; hour < 24; hour++) {
+        salesHeatmapData.push({ day, hour, value: heatmapMap.get(`${day}-${hour}`) || 0 });
+      }
+    }
+
+    return {
+      totalSalesRevenue: currentMetrics.revenue || 0,
+      totalCashInflow: currentMetrics.cashInflow || 0,
+      totalExpenses: currentMetrics.expenses || 0,
+      totalPendingExpenses: currentMetrics.pendingExpenses || 0,
+      totalInsumos: currentMetrics.insumos || 0,
+      grossProfit: currentMetrics.grossProfit || 0,
+      netProfit: currentMetrics.netProfit || 0,
+      salesCount: currentMetrics.salesCount || 0,
+      avgTicket: currentMetrics.avgTicket || 0,
+      goalProgress,
+      finalGoal,
+      dailyGoal: dailyExpenseRate,
+      totalMonthlyExpenses,
+      daysInPeriod,
+      deltas: {
+        revenue: calculateDelta(currentMetrics.revenue, prevMetrics.revenue),
+        cashInflow: calculateDelta(currentMetrics.cashInflow, prevMetrics.cashInflow),
+        expenses: calculateDelta(currentMetrics.expenses, prevMetrics.expenses),
+        insumos: calculateDelta(currentMetrics.insumos, prevMetrics.insumos),
+        grossProfit: calculateDelta(currentMetrics.grossProfit, prevMetrics.grossProfit),
+        netProfit: calculateDelta(currentMetrics.netProfit, prevMetrics.netProfit),
+        salesCount: calculateDelta(currentMetrics.salesCount, prevMetrics.salesCount),
+        avgTicket: calculateDelta(currentMetrics.avgTicket, prevMetrics.avgTicket),
+      },
+      topProducts: Array.from(topProductsMap.entries()).map(([name, quantity]) => ({ name, quantity })).sort((a, b) => b.quantity - a.quantity).slice(0, 10),
+      profitByProduct: Array.from(profitByProductMap.entries()).map(([name, profit]) => ({ name, profit })).sort((a, b) => b.profit - a.profit).slice(0, 10),
+      salesHeatmapData,
+      salesByHourForChart: Array.from({ length: 24 }, (_, i) => ({ hour: `${String(i).padStart(2, '0')}:00`, vendas: salesByHourMap.get(`${String(i).padStart(2, '0')}:00`) || 0 })),
+      salesTransactions: filteredTransactions.filter(t => t.type === 'sale'),
+      expenseTransactions: filteredTransactions.filter(t => t.type === 'expense'),
+      purchaseTransactions: filteredTransactions.filter(t => t.type === 'expense' && t.expenseCategory === 'Insumos'),
+      paymentTransactions: filteredTransactions.filter(t => t.type === 'payment'),
+      salesByPaymentMethodForChart: Array.from(salesByPaymentMethodMap.entries()).map(([name, value]) => ({ name, value })),
+      cashInflowByMethodForChart: Array.from(cashInflowByMethodMap.entries()).map(([name, value]) => ({ name, value })),
+      expensesByCategoryForChart: Array.from(expensesByCategoryMap.entries()).map(([name, value]) => ({ name, value })),
+      purchasesBySupplierForChart: Array.from(purchasesBySupplierMap.entries()).map(([name, value]) => ({ name, value })),
+      customersWithDebt: (customers || []).filter((c) => (c.balance || 0) > 0).length,
+      totalCustomerDebt: (customers || []).reduce((sum, c) => sum + (c.balance || 0), 0),
+      outOfStockProducts: (products || []).filter((p) => p.saleType !== 'service' && (p.stock || 0) <= 0).length,
+      totalProducts: (products || []).length,
+    };
+  }, [transactions, products, gameModalities, customers, date, periodGoal]);
+};

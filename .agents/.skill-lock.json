@@ -1,0 +1,62 @@
+{
+  "version": 3,
+  "skills": {
+    "firebase-ai-logic": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firebase/agent-skills.git",
+      "skillPath": "skills/firebase-ai-logic-basics/SKILL.md",
+      "skillFolderHash": "88cf93690ae7072514a68853e840f1084521cc66",
+      "installedAt": "2026-03-04T02:15:20.494Z",
+      "updatedAt": "2026-03-04T02:15:20.494Z"
+    },
+    "firebase-app-hosting-basics": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firebase/agent-skills.git",
+      "skillPath": "skills/firebase-app-hosting-basics/SKILL.md",
+      "skillFolderHash": "ddc98c35d534aca0c2c38585c1d2d6acbdaac90f",
+      "installedAt": "2026-03-04T02:15:20.515Z",
+      "updatedAt": "2026-03-04T02:15:20.515Z"
+    },
+    "firebase-auth-basics": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firebase/agent-skills.git",
+      "skillPath": "skills/firebase-auth-basics/SKILL.md",
+      "skillFolderHash": "40f9aa8f1d825ddc56eb21590016bd95dc410a25",
+      "installedAt": "2026-03-04T02:15:20.534Z",
+      "updatedAt": "2026-03-04T02:15:20.534Z"
+    },
+    "firebase-basics": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firebase/agent-skills.git",
+      "skillPath": "skills/firebase-basics/SKILL.md",
+      "skillFolderHash": "51bf3253410e247e11704bb604cd8310d51bbbd0",
+      "installedAt": "2026-03-04T02:15:20.554Z",
+      "updatedAt": "2026-03-04T02:15:20.554Z"
+    },
+    "firebase-firestore-basics": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firebase/agent-skills.git",
+      "skillPath": "skills/firebase-firestore-basics/SKILL.md",
+      "skillFolderHash": "be0cb16e755e16e4b8fb3bf4d08285c12a4f25c0",
+      "installedAt": "2026-03-04T02:15:20.573Z",
+      "updatedAt": "2026-03-04T02:15:20.573Z"
+    },
+    "firebase-hosting-basics": {
+      "source": "firebase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firebase/agent-skills.git",
+      "skillPath": "skills/firebase-hosting-basics/SKILL.md",
+      "skillFolderHash": "56a1d0b7f0ac4f438c6f779c369fe42a867371f5",
+      "installedAt": "2026-03-04T02:15:20.593Z",
+      "updatedAt": "2026-03-04T02:15:20.593Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  }
+}

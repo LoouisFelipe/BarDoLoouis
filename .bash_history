@@ -1,0 +1,126 @@
+PROJECT_NUMBER=$(gcloud projects describe bardoluis --format='value(projectNumber)') && gcloud projects add-iam-policy-binding bardoluis --member="serviceAccount:service-${PROJECT_NUMBER}@gcp-sa-eventarc.iam.gserviceaccount.com" --role="roles/eventarc.serviceAgent"
+firebase login
+firebase init
+npm install -g firebase-tools
+firebase login
+firebase init
+firebase deploy --only hosting:bard0luis
+firebase deploy --only hosting
+mkdir public
+cp -r src/* public/
+firebase deploy --only hosting
+ls -R public
+# Exemplo se seus arquivos estiverem na raiz da pasta src que você subiu
+cp -r src/* public/
+firebase deploy --only hosting
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git push -u origin BarDoLoouis
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git init 
+git commit -m "primeiro commit" 
+git push -u origin BarDoLoouis
+git branch -M BarDoLoouis 
+git push -u origin BarDoLoouis
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git branch -M main
+git push -u origin main
+git init
+git add .
+git commit -m "feat: inicialização do BarDoLoouis com Data Hub e Personas"
+git config --global user.email "louisfelipecabral@gmail.com"
+git config --global user.name "LoouisFelipe"
+git commit -m "feat: inicialização do BarDoLoouis com Data Hub e Personas"
+git push -u origin main
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git branch -M BarDoLoouis
+git push -u origin BarDoLoouis
+echo "# BarDoLoouis" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M BarDoLoouis
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git push -u origin BarDoLoouis
+git commit -m "feat: inicialização do BarDoLoouis com Data Hub e Personas"
+git add backend/ src/ GEMINI\ \(1\).md firebase.json firestore.rules public/
+git commit -m "feat: inicialização do BarDoLoouis com Data Hub e Personas"
+git add backend/ src/ GEMINI\ \(1\).md firebase.json firestore.rules public/
+git commit -m "feat: implementação do Data Hub e Conselhos C-Level"
+firebase login
+firebase login --reauth # alternative, if necessary
+firebase login --no-localhost # if running in a remote shell
+firebase login --no-localhost
+firebase login
+firebase login --reauth # alternative, if necessary
+firebase login --no-localhost # if running in a remote shell
+cd $PROJECT_ROOT
+firebase init genkit
+firebase deploy
+firebase experiments:enable webframeworks
+firebase deploy
+npx skills add firebase/agent-skills
+gemini extensions install https://github.com/firebase/agent-skills
+npm run dev
+npm install
+npm audit fix
+npm run dev
+npm install -g firebase-tools
+git init
+git add .
+git commit -m "feat: estrutura inicial BarDoLoouis com Data Hub"
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git branch -M main
+git push -u origin main
+git rm -r --cached .cache/ .codeoss/
+git add .
+git commit -m "chore: removendo arquivos pesados e configurando gitignore"
+git push -u origin main
+npm install -g firebase-tools
+firebase init hosting
+firebase init hosting:github
+git init -b main
+echo "# BarDoLoouis" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M BarDoLoouis
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git push -u origin BarDoLoouis
+git rm -r --cached .cache/ .codeoss/
+echo ".cache/" >> .gitignore
+echo ".codeoss/" >> .gitignore
+echo "node_modules/" >> .gitignore
+echo "*.log" >> .gitignore
+git add .
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git branch -M BarDoLoouis
+git push -u origin BarDoLoouis
+npm install firebase
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDUkN5SbkkgCxqep9eauFVfSpiiKZKpUTs",
+  authDomain: "bardoloouis.firebaseapp.com",
+  projectId: "bardoloouis",
+  storageBucket: "bardoloouis.firebasestorage.app",
+  messagingSenderId: "768840741068",
+  appId: "1:768840741068:web:9794bf85d72c387e391269",
+  measurementId: "G-HWC5E4QPJ8"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+firebase apphosting:backends:create --project bardoloouis
+git rm -r --cached .cache/
+echo ".cache/" >> .gitignore
+echo ".codeoss/" >> .gitignore
+git add .
+git commit -m "chore: removendo arquivos pesados e liberando a branch main"
+git push -u origin main

@@ -1,0 +1,17 @@
+{
+  "name": "bardolouis-management",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 8080",
+    "build": "next build",
+    "start": "next start -p 8080",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "firebase": "^12.10.0",
+    "next": "latest",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}

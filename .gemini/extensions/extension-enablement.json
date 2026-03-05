@@ -1,0 +1,12 @@
+{
+  "vertex": {
+    "overrides": [
+      "/home/louisfelipecabral/*"
+    ]
+  },
+  "firebase": {
+    "overrides": [
+      "/home/louisfelipecabral/*"
+    ]
+  }
+}
