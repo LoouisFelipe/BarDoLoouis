@@ -124,3 +124,25 @@ echo ".codeoss/" >> .gitignore
 git add .
 git commit -m "chore: removendo arquivos pesados e liberando a branch main"
 git push -u origin main
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git push -u origin BarDoLoouis
+gemini
+gh repo clone LoouisFelipe/BarDoLoouis
+gh auth login
+git remote add origin https://github.com/LoouisFelipe/BarDoLoouis.git
+git branch -M BarDoLoouis 
+git push -u origin BarDoLoouis
+git push --help
+unminimize
+man-db
+npm install @radix-ui/react-slot @radix-ui/react-toast class-variance-authority clsx lucide-react tailwind-merge
+ls -a
+ls -la
+git add .
+git rm --cached .gemini/history/71ebb9c327aa516616d354d6b3c218da779edbd609a4234636809efa777d2124
+-f to force removal
+git rm -rf --cached .gemini/
+git rm -rf --cached .codeoss/
+echo ".gemini/" >> .gitignore
+echo ".codeoss/" >> .gitignore
+echo ".cache/" >> .gitignore

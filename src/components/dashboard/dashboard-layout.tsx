@@ -1,13 +1,3 @@
-    <CustomersDebtReportModal open={activeReport === 'debt'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} customers={customers} onNavigateToCustomers={() => {}} />
-      <InventoryReportModal open={activeReport === 'inventory'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} products={products} onNavigateToProducts={() => {}} />
-      <GoalReportModal open={activeReport === 'goal'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} date={date} />
-      <PayablesReportModal open={activeReport === 'payables'} onOpenChange={(o) => !o && setActiveReport(null)} transactions={transactions} onMarkAsPaid={markExpenseAsPaid} />
-    </div>
-  );
-}
-';
-import { cn } from '@/lib/utils';
-
 // Modais de Relatório
 import { SalesRevenueReportModal } from '@/components/financials/sales-revenue-report-modal';
 import { SalesVolumeReportModal } from '@/components/financials/sales-volume-report-modal';
