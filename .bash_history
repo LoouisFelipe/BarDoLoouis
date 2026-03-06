@@ -198,3 +198,58 @@ java -version
 firebase emulators:start
 gcloud config set project [bardoloouis]
 gemini
+git add .
+gcloud projects list
+$ gcloud config set account ACCOUNT
+$ gcloud auth loginv
+$ gcloud auth login
+git commit -m "feat: upgrade Cockpit v3.0 PRO - Integração Financeira e IA"
+git push origin main
+npm install firebase
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDUkN5SbkkgCxqep9eauFVfSpiiKZKpUTs",
+  authDomain: "bardoloouis.firebaseapp.com",
+  projectId: "bardoloouis",
+  storageBucket: "bardoloouis.firebasestorage.app",
+  messagingSenderId: "768840741068",
+  appId: "1:768840741068:web:9794bf85d72c387e391269",
+  measurementId: "G-HWC5E4QPJ8"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
+export declare function initializeServerApp(config?: FirebaseServerAppSettings): FirebaseServerApp;
+npm install dotenv
+# Limpa o cache do NPM (geralmente libera centenas de MB)
+npm cache clean --force
+rm -rf ~/.npm
+# Limpa caches gerais de desenvolvimento
+rm -rf ~/.cache
+# Remove lixeiras ocultas se existirem
+rm -rf ~/.local/share/Trash
+du -sh .[^.]* * | sort -hr | head -n 10
+rm -rf .next .gemini
+ls -la /home/louisfelipecabral/.env
+npm install dotenv
+npm install -g npm@11.11.0
+npm run dev
+fuser -k 8080/tcp
+npm run dev
+npm install @radix-ui/react-accordion
+npm install @radix-ui/react-dialog @radix-ui/react-popover @radix-ui/react-scroll-area @radix-ui/react-tabs @radix-ui/react-label @radix-ui/react-alert-dialog @radix-ui/react-tooltip
+npm run dev
+npx depcheck
+npm install
+npm run dev
+firebase-basics

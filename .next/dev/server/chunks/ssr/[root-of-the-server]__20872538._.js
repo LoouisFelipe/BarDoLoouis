@@ -210,7 +210,7 @@ const ai = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$g
 "[project]/src/ai/flows/business-analysis-flow.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"40f8add7cb5aa34a5c17e342fe3ebbd01f539b1f4a":"analyzeBusinessPerformance"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"40e9c839f00e6e149a609ff6d46627e97390a4c538":"analyzeBusinessPerformance"},"",""] */ __turbopack_context__.s([
     "analyzeBusinessPerformance",
     ()=>analyzeBusinessPerformance
 ]);
@@ -297,7 +297,7 @@ async function analyzeBusinessPerformance(input) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     analyzeBusinessPerformance
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(analyzeBusinessPerformance, "40f8add7cb5aa34a5c17e342fe3ebbd01f539b1f4a", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(analyzeBusinessPerformance, "40e9c839f00e6e149a609ff6d46627e97390a4c538", null);
 }),
 "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/ai/flows/business-analysis-flow.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -310,7 +310,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$ai$2f$flows$2f$busine
 "use strict";
 
 __turbopack_context__.s([
-    "40f8add7cb5aa34a5c17e342fe3ebbd01f539b1f4a",
+    "40e9c839f00e6e149a609ff6d46627e97390a4c538",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$ai$2f$flows$2f$business$2d$analysis$2d$flow$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["analyzeBusinessPerformance"]
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f2e$next$2d$internal$2f$server$2f$app$2f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$src$2f$ai$2f$flows$2f$business$2d$analysis$2d$flow$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i('[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => "[project]/src/ai/flows/business-analysis-flow.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <locals>');
