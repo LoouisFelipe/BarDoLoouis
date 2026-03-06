@@ -1,0 +1,21 @@
+{
+  "node": {
+    "40f8add7cb5aa34a5c17e342fe3ebbd01f539b1f4a": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/ai/flows/business-analysis-flow.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "analyzeBusinessPerformance",
+          "filename": "src/ai/flows/business-analysis-flow.ts"
+        }
+      },
+      "layer": {
+        "app/page": "action-browser"
+      },
+      "filename": "src/ai/flows/business-analysis-flow.ts",
+      "exportedName": "analyzeBusinessPerformance"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "o5aQqUXTpHGCLz/7KTbc4Pur9g9g2qTewc2BCBxS6QY="
+}

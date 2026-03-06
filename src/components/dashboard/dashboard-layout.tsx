@@ -1,3 +1,19 @@
+import { useMemo, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { startOfDay, endOfDay } from 'date-fns';
+import { useData } from '@/contexts/data-context';
+import { useReportData } from '@/hooks/use-report-data';
+import { cn } from '@/lib/utils';
+
+// UI Components
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
+import { OrderGrid } from '@/components/orders/order-grid';
+
+// Icons
+import { Receipt, HandCoins, TrendingDown, Scale, AlertTriangle, Users, Calendar, Zap, ShoppingCart, Target, TrendingUp, DollarSign } from 'lucide-react';
+
 // Modais de Relatório
 import { SalesRevenueReportModal } from '@/components/financials/sales-revenue-report-modal';
 import { SalesVolumeReportModal } from '@/components/financials/sales-volume-report-modal';
@@ -10,6 +26,7 @@ import { InventoryReportModal } from '@/components/products/inventory-report-mod
 import { GoalReportModal } from '@/components/financials/goal-report-modal';
 import { PayablesReportModal } from '@/components/financials/payables-report-modal';
 import { AIBusinessAnalyst } from './ai-business-analyst';
+import { FinancialSummaryReportModal } from '@/components/financials/financial-summary-modal';
 
 /**
  * @fileOverview Cockpit de Comando Bar do Luis (Layout Unificado).
@@ -18,7 +35,7 @@ import { AIBusinessAnalyst } from './ai-business-analyst';
  */
 
 export function DashboardLayout() {
-  const { transactions, products, gameModalities, customers, markExpenseAsPaid } = useData();
+  const { transactions, products, gameModalities, customers } = useData();
   
   // 1. Estados de Filtro Temporal
   const [date, setDate] = useState<DateRange | undefined>({
@@ -38,6 +55,11 @@ export function DashboardLayout() {
     date,
     periodGoal: 0, // CFO: Pode ser customizado via UI futuramente
   });
+
+  // Placeholder: A função markExpenseAsPaid ainda não foi implementada no DataContext
+  const markExpenseAsPaid = async (id: string) => {
+    console.log("TODO: Implementar baixa de despesa no DataContext", id);
+  };
 
   const kpis = useMemo(() => {
     if (!reportData) return [];
@@ -195,6 +217,7 @@ export function DashboardLayout() {
                 </CardHeader>
                 <CardContent className="p-4 grid gap-2">
                     {[
+                        { id: 'summary', label: 'Resumo Financeiro', icon: <DollarSign size={14}/> },
                         { id: 'volume', label: 'Fluxo & Horários', icon: <Receipt size={14}/> },
                         { id: 'profit', label: 'Eficiência & COGS', icon: <Target size={14}/> },
                         { id: 'purchases', label: 'Reposição & Insumos', icon: <ShoppingCart size={14}/> },
@@ -221,4 +244,11 @@ export function DashboardLayout() {
       <ExpensesReportModal open={activeReport === 'expenses'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} date={date} />
       <PurchasesReportModal open={activeReport === 'purchases'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} date={date} />
       <ProfitReportModal open={activeReport === 'profit'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} date={date} />
-  
+      <CustomersDebtReportModal open={activeReport === 'debt'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} customers={customers} onNavigateToCustomers={() => {}} />
+      <InventoryReportModal open={activeReport === 'inventory'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} products={products} onNavigateToProducts={() => {}} />
+      <GoalReportModal open={activeReport === 'goal'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} date={date} />
+      <PayablesReportModal open={activeReport === 'payables'} onOpenChange={(o) => !o && setActiveReport(null)} transactions={transactions} onMarkAsPaid={markExpenseAsPaid} />
+      <FinancialSummaryReportModal open={activeReport === 'summary'} onOpenChange={(o) => !o && setActiveReport(null)} reportData={reportData} date={date} />
+    </div>
+  );
+}

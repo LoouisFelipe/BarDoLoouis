@@ -146,3 +146,55 @@ git rm -rf --cached .codeoss/
 echo ".gemini/" >> .gitignore
 echo ".codeoss/" >> .gitignore
 echo ".cache/" >> .gitignore
+git add .
+git commit -m "chore: removendo submódulos de IA e limpando histórico para deploy"
+git push -u origin main
+cat <<EOF > next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    allowedDevOrigins: [
+      '8080-cs-531d356b-f642-4c37-be1c-a6e0c4506686.cs-us-east1-rtep.cloudshell.dev'
+    ]
+  }
+};
+
+export default nextConfig;
+EOF
+
+cat <<EOF > next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    allowedDevOrigins: [
+      '8080-cs-531d356b-f642-4c37-be1c-a6e0c4506686.cs-us-east1-rtep.cloudshell.dev'
+    ]
+  }
+};
+
+export default nextConfig;
+EOF
+
+gemini extensions install https://github.com/firebase/agent-skills
+gemini extensions install https://github.com/gemini-cli-extensions/firebase/
+npm run dev
+fuser -k 8080/tcp
+npm run dev
+npm run dev
+cat <<EOF > next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  /* Configurações básicas para o BarDoLoouis */
+  reactStrictMode: true,
+};
+
+export default nextConfig;
+EOF
+
+sudo apt-get update
+sudo apt-get install -y openjdk-21-jdk
+sudo update-alternatives --config java
+java -version
+firebase emulators:start
+gcloud config set project [bardoloouis]
+gemini

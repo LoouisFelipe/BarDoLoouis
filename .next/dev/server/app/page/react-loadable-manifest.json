@@ -1,0 +1,23 @@
+{
+  "[project]/src/components/dashboard/charts/sales-by-payment-method-chart.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/charts/sales-by-payment-method-chart.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_charts_sales-by-payment-method-chart_tsx_1e26a31a._.js",
+      "static/chunks/src_components_dashboard_charts_sales-by-payment-method-chart_tsx_282ee53a._.js"
+    ]
+  },
+  "[project]/src/components/dashboard/charts/sales-by-hour-chart.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/charts/sales-by-hour-chart.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_charts_sales-by-hour-chart_tsx_aa7b13ef._.js",
+      "static/chunks/src_components_dashboard_charts_sales-by-hour-chart_tsx_282ee53a._.js"
+    ]
+  },
+  "[project]/src/components/dashboard/charts/profit-by-product-chart.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/charts/profit-by-product-chart.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_charts_profit-by-product-chart_tsx_9189a7a9._.js",
+      "static/chunks/src_components_dashboard_charts_profit-by-product-chart_tsx_282ee53a._.js"
+    ]
+  }
+}
