@@ -1,6 +1,0 @@
-[00:00:01.095] Server  LOG     ✓ Ready in 720ms
-[00:00:49.242] Server  LOG     ○ Compiling / ...
-[00:00:54.680] Server  WARN    ⚠ Cross origin request detected from 3000-cs-531d356b-f642-4c37-be1c-a6e0c4506686.cs-us-east1-rtep.cloudshell.dev to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
-Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
-[00:02:14.926] Server  LOG       Reload env: .env.local
-[00:02:21.622] Server  LOG       Reload env: .env.local

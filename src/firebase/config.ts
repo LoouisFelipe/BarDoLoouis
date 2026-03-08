@@ -1,10 +1,8 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyCoFEvyoAcvel_GDjYZnTzcpF4Ont_0EKE",
-  authDomain: "bardoluis-86e9e.firebaseapp.com",
-  databaseURL: "https://bardoluis-default-rtdb.firebaseio.com",
-  projectId: "bardoluis",
-  storageBucket: "bardoluis.firebasestorage.app",
-  messagingSenderId: "392644795631",
-  appId: "1:392644795631:web:b7fc6e28a257b669a64f1a",
-  measurementId: "G-Y732X8EEZ9"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };

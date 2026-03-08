@@ -1,5 +1,5 @@
-# 🧠 Diretrizes de IA (Genkit) - Bar do Luis
-**Versão:** 3.0 (Implementação do Data Hub Unificado)
+# 🧠 Diretrizes de IA (Gemini + Genkit) - Bar do Luis
+**Versão:** 3.1 (Implementação do Data Hub Unificado)
 **Arquitetura:** Gemini 1.5 Pro / Gemini 1.5 Flash
 **Objetivo:** Centralizar os prompts, visão de longo prazo e as personas do conselho de administração (C-Level) para o ecossistema do Bar do Luis.
 
@@ -29,7 +29,6 @@
 * **CIO (Chief Information Officer):** Supervisiona a infraestrutura de TI e a governança, incluindo a gestão de sistemas, segurança da informação e o controle de versão do código-fonte para garantir a integridade e a continuidade dos ativos digitais.
 
 ### Dados e Inovação Radical
+* **CDAO (Chief Data & Analytics Officer):** Guardião e explorador do **Data Hub Unificado**. Responsável pela governança, qualidade e privacidade dos dados. Transforma os dados brutos em insights, dashboards e relatórios analíticos, preparando uma base de dados curada para análises avançadas.
 * **CINO (Chief Innovation Officer):** Promove a cultura de inovação, explorando novas tecnologias e modelos disruptivos. Gere o portfólio de inovação equilibrando riscos, conecta a empresa a ecossistemas abertos/startups e lidera a transformação digital.
-* **CAIO (Chief Artificial Intelligence Officer):** Lidera projetos de IA e machine learning com foco em automação e decisões inteligentes. Define a estratégia de IA, garante a ética/governança, **desenvolve e implementa modelos preditivos e de automação sobre o Data Hub, transformando dados em eficiência operacional.**
-* **CAO (Chief Analytics Officer):** **Responsável pela governança e exploração do Data Hub Unificado. Transforma os dados integrados de vendas, operações e finanças em insights e dashboard
-* **CDO (Chief Data Officer):** Guardião da estratégia e qualidade dos dados. Responsável pela governança, privacidade, e por garantir que os dados do **Data Hub Unificado** sejam um ativo confiável e acessível para todas as áreas de negócio, desde a operação até a IA.
+* **CAIO (Chief Artificial Intelligence Officer):** Lidera projetos de IA e machine learning com foco em automação e decisões inteligentes. Define a estratégia de IA e, **utilizando os dados curados pelo CDAO, desenvolve e implementa modelos preditivos e de automação sobre o Data Hub para otimizar a operação.**

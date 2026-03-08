@@ -35,8 +35,8 @@ export function getSdks(firebaseApp: FirebaseApp) {
   const firestore = getFirestore(firebaseApp, "bardoluis");
 
   if (process.env.NODE_ENV === 'development' && !emulatorsConnected) {
-    connectFirestoreEmulator(firestore, 'localhost', 8080);
-    connectAuthEmulator(auth, 'http://localhost:9099');
+    // connectFirestoreEmulator(firestore, 'localhost', 8080);
+    // connectAuthEmulator(auth, 'http://localhost:9099');
     emulatorsConnected = true;
   }
 

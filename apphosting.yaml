@@ -1,0 +1,26 @@
+# apphosting.yaml
+
+# Cloud Run service configuration
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 100
+  concurrency: 80
+
+# Environment variables
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyDUkN5SbkkgCxqep9eauFVfSpiiKZKpUTs
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: bardoloouis.firebaseapp.com
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: bardoloouis
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: bardoloouis.firebasestorage.app
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "768840741068"
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:768840741068:web:9794bf85d72c387e391269
+  - variable: GOOGLE_GENAI_API_KEY
+    secret: GOOGLE_GENAI_API_KEY

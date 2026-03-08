@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Customer, Transaction } from "@/lib/schemas";
+import { Customer, Transaction, OrderItem } from "@/lib/schemas";
 import { format, isToday, isYesterday, startOfDay } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -58,7 +58,7 @@ export const CustomerHistoryModal = ({ customer, transactions, open, onOpenChang
     const counts: Record<string, number> = {};
     customerTransactions.forEach(t => {
       if (t.type === 'sale' && t.items) {
-        t.items.forEach((item: any) => {
+        t.items.forEach((item: OrderItem) => {
           counts[item.name] = (counts[item.name] || 0) + (item.quantity || 1);
         });
       }
@@ -250,7 +250,7 @@ export const CustomerHistoryModal = ({ customer, transactions, open, onOpenChang
 
                                 {isSale && transaction.items && transaction.items.length > 0 && (
                                     <div className="mt-2 pt-3 border-t border-white/5 space-y-2">
-                                        {transaction.items.map((item, idx) => {
+                                        {transaction.items.map((item: OrderItem, idx: number) => {
                                             const itemPrice = ('unitPrice' in item ? item.unitPrice : 0);
                                             const isItemCredit = itemPrice < 0;
                                             

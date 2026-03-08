@@ -1,12 +1,21 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
-import { onAuthStateChanged, User, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, onSnapshot, DocumentData } from 'firebase/firestore';
+import { 
+  onAuthStateChanged, 
+  User, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider
+} from 'firebase/auth';
+import { doc, onSnapshot, setDoc, serverTimestamp, DocumentData, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 
 export type FirebaseUser = User;
 
 const CEO_UID = "o0FzqC1oYoYYwjgJXbbgL4QoCe42";
+const ADMIN_EMAIL = "louisfelipecabral@gmail.com";
 
 export interface UserProfile extends DocumentData {
   uid: string;
@@ -28,6 +37,8 @@ interface AuthContextType {
   isCaixaOrAdmin: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  signup: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -45,7 +56,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isCaixaOrAdmin = isAdmin || userProfile?.role === 'cashier';
 
   useEffect(() => {
-    // CTO: O Firebase Auth deve ser acessado com cautela no boot
     if (!auth) return;
 
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -72,13 +82,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const userProfileRef = doc(db, 'users', user.uid);
       unsubscribeProfile = onSnapshot(
         userProfileRef,
-        (docSnap) => {
+        async (docSnap) => {
           if (docSnap.exists()) {
             setUserProfile({ ...docSnap.data(), uid: docSnap.id } as UserProfile);
-          } else if (user.uid === CEO_UID) {
-            setUserProfile({ uid: CEO_UID, name: 'CEO (Luis)', role: 'admin' } as UserProfile);
           } else {
-            setUserProfile(null);
+            console.log(`User ${user.email} not found in Firestore. Creating profile...`);
+            try {
+              const isGoogleAdmin = user.email === ADMIN_EMAIL;
+              const newProfile: UserProfile = {
+                uid: user.uid,
+                name: user.displayName || user.email?.split('@')[0] || 'New User',
+                email: user.email,
+                role: isGoogleAdmin ? 'admin' : 'waiter',
+                createdAt: serverTimestamp(),
+              };
+              await setDoc(userProfileRef, newProfile);
+              setUserProfile(newProfile);
+            } catch (error) {
+              console.error("Error creating user profile:", error);
+              setProfileError(error as Error);
+            }
           }
           setIsLoadingProfile(false);
           setProfileError(null);
@@ -116,15 +139,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const signup = useCallback(async (email: string, password: string) => {
+    setIsLoadingAuth(true);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // onAuthStateChanged and the useEffect above will handle profile creation
+    } catch (error: any) {
+      setAuthError(error);
+      throw error;
+    } finally {
+      setIsLoadingAuth(false);
+    }
+  }, []);
+
+  const signInWithGoogle = useCallback(async () => {
+    setIsLoadingAuth(true);
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      // onAuthStateChanged and the useEffect above will handle profile creation
+    } catch (error: any) {
+      setAuthError(error);
+      throw error;
+    } finally {
+      setIsLoadingAuth(false);
+    }
+  }, []);
+
   return (
     <AuthContext.Provider value={{ 
       user, userProfile, isLoadingAuth, authError, isLoadingProfile, 
-      profileError, isAuthReady, isAdmin, isCaixaOrAdmin, login, logout 
+      profileError, isAuthReady, isAdmin, isCaixaOrAdmin, login, logout, signup, signInWithGoogle 
     }}>
       {children}
     </AuthContext.Provider>
   );
 }
+
 
 export function useAuth() {
   const context = useContext(AuthContext);

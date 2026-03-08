@@ -96,7 +96,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({ 
                             </TableHeader>
                             <TableBody>
                                 {transaction.items && transaction.items.length > 0 ? (
-                                    transaction.items.map((item, index) => {
+                                    transaction.items.map((item: OrderItem | PurchaseItem, index: number) => {
                                         const isOrderItem = 'unitPrice' in item;
                                         const name = item.name;
                                         const quantity = item.quantity;

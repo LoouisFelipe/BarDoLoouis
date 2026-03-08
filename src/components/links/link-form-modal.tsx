@@ -25,8 +25,8 @@ export function LinkFormModal({ open, onOpenChange, link }: LinkFormModalProps) 
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [tagInput, setTagInput] = useState('');
 
-  const form = useForm<Omit<Link, 'id' | 'userId'>>({
-    resolver: zodResolver(LinkSchema.omit({ id: true, userId: true })),
+  const form = useForm<Omit<Link, 'id'>>({
+    resolver: zodResolver(LinkSchema.omit({ id: true })),
     defaultValues: {
       url: '',
       title: '',
@@ -87,7 +87,7 @@ export function LinkFormModal({ open, onOpenChange, link }: LinkFormModalProps) 
     }
   };
 
-  const onSubmit = async (data: Omit<Link, 'id' | 'userId'>) => {
+  const onSubmit = async (data: Omit<Link, 'id'>) => {
     try {
       await saveLink(data, link?.id);
       onOpenChange(false);
@@ -173,7 +173,7 @@ export function LinkFormModal({ open, onOpenChange, link }: LinkFormModalProps) 
                     <FormItem>
                       <FormLabel className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Descrição (Opcional)</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Para que serve este link?" {...field} rows={4} className="bg-muted/30 border-2 rounded-xl font-medium" />
+                        <Textarea placeholder="Para que serve este link?" {...field} value={field.value ?? ''} rows={4} className="bg-muted/30 border-2 rounded-xl font-medium" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -235,6 +235,7 @@ export function LinkFormModal({ open, onOpenChange, link }: LinkFormModalProps) 
                         <Textarea 
                           placeholder="A IA escreverá aqui um resumo do conteúdo deste link após você clicar em 'Gerar Resumo'." 
                           {...field} 
+                          value={field.value ?? ''}
                           rows={3} 
                           className="bg-white/50 border-none shadow-inner text-xs font-medium italic"
                         />

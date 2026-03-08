@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context';
 import { DataProvider } from '@/contexts/data-context';
 import { DashboardHeader } from '@/components/dashboard/dashboard-header';
+import { TopNav } from '@/components/layout/TopNav';
 import { DashboardLayout } from '@/components/dashboard/dashboard-layout';
 import { Spinner } from '@/components/ui/spinner';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -71,6 +72,7 @@ export default function RootPage() {
           isLoadingProfile={isLoadingProfile}
           profileError={profileError}
         />
+        <TopNav />
         <main className="flex-grow p-4 sm:p-8">
           {isLoadingProfile ? (
             <div className="flex items-center justify-center h-full">

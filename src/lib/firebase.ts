@@ -1,14 +1,22 @@
-import { initializeFirebase } from "@/firebase";
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { firebaseConfig } from '@/firebase/config'; // Importando a configuração correta
 
-/**
- * @fileOverview Ponto de acesso simplificado para instâncias Firebase.
- * CTO: Consolidado para usar a inicialização mestre do projeto, 
- * garantindo que não existam instâncias duplicadas ou conflitos de banco.
- */
+// Se estiver usando o Data Connect, descomente a linha abaixo
+// import { getDataConnect, connectDataConnectEmulator } from 'firebase/data-connect';
 
-const { auth: firebaseAuth, firestore: firebaseDb } = initializeFirebase();
+// Inicialização segura para evitar recriação no Next.js (HMR)
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-export const auth = firebaseAuth;
-export const db = firebaseDb;
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+// const dc = getDataConnect(app); // Exemplo para Data Connect
 
-export default firebaseDb;
+// Em ambiente de desenvolvimento, você pode querer conectar aos emuladores
+// if (process.env.NODE_ENV === 'development') {
+//   connectDataConnectEmulator(dc, 'localhost', 9399);
+// }
+
+// Exporte as instâncias para serem usadas no resto da aplicação
+export { app, auth, firestore as db /*, dc */ };

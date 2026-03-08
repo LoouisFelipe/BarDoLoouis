@@ -1,8 +1,47 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Regra padrão: nega acesso a todos os documentos.
+    // Isso garante que nenhuma coleção seja deixada desprotegida.
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if false;
+    }
+
+    // Coleção 'users':
+    // Usuários podem ler e escrever em seu próprio documento de usuário.
+    // Isso permite que eles atualizem suas próprias informações de perfil.
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+
+    // Coleções 'customers', 'products', 'suppliers':
+    // Qualquer usuário autenticado pode ler os dados.
+    // A escrita é restrita a administradores.
+    match /customers/{customerId} {
+      allow read: if request.auth != null;
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /products/{productId} {
+      allow read: if request.auth != null;
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /suppliers/{supplierId} {
+      allow read: if request.auth != null;
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Coleção 'orders':
+    // Usuários autenticados podem criar novos pedidos.
+    // Eles só podem ler, atualizar ou deletar seus próprios pedidos.
+    // Isso assume que cada documento de pedido tem um campo 'userId'.
+    match /orders/{orderId} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
   }
 }

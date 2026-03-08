@@ -15,7 +15,9 @@ import {
   orderBy 
 } from 'firebase/firestore';
 import { useToast } from '@/components/ui/use-toast';
-import { Order, Product, Customer, Supplier, GameModality, Transaction, RecurringExpense, PurchaseItem } from '@/types';
+import { Order, Product, Customer, Supplier, GameModality, Transaction, RecurringExpense, PurchaseItem, Link } from '@/lib/schemas';
+import { saveLink } from '@/lib/actions';
+import { summarizeSavedLink } from '@/ai/flows/summarize-saved-link';
 
 interface DataContextType {
   products: Product[];
@@ -26,10 +28,14 @@ interface DataContextType {
   transactions: Transaction[];
   recurringExpenses: RecurringExpense[];
   purchaseItems: PurchaseItem[];
+  links: Link[];
   loading: boolean;
   addProduct: (data: Partial<Product>) => Promise<void>;
   updateProduct: (id: string, data: Partial<Product>) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
+  deleteLink: (id: string) => Promise<void>;
+  saveLink: (data: Partial<Link>, id?: string) => Promise<void>;
+  generateSummary: (url: string) => Promise<string | null>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -46,6 +52,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [recurringExpenses, setRecurringExpenses] = useState<RecurringExpense[]>([]);
   const [purchaseItems, setPurchaseItems] = useState<PurchaseItem[]>([]);
+  const [links, setLinks] = useState<Link[]>([]);
   
   const [loading, setLoading] = useState(true);
 
@@ -80,6 +87,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     subscribe('transactions', setTransactions);
     subscribe('recurring_expenses', setRecurringExpenses);
     subscribe('purchase_items', setPurchaseItems);
+    subscribe('links', setLinks);
 
     setLoading(false);
 
@@ -122,10 +130,32 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const deleteLink = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'links', id));
+      toast({ title: "Link removido!" });
+    } catch (error) {
+      console.error(error);
+      toast({ variant: "destructive", title: "Erro", description: "Falha ao remover link." });
+      throw error;
+    }
+  };
+
+  const generateSummary = async (url: string): Promise<string | null> => {
+    try {
+      const result = await summarizeSavedLink({ url });
+      return result.summary;
+    } catch (error) {
+      console.error('Failed to generate summary:', error);
+      toast({ variant: "destructive", title: "Erro", description: "Falha ao gerar resumo." });
+      return null;
+    }
+  };
+
   return (
     <DataContext.Provider value={{
-      products, orders, customers, suppliers, gameModalities, transactions, recurringExpenses, purchaseItems,
-      loading, addProduct, updateProduct, deleteProduct
+      products, orders, customers, suppliers, gameModalities, transactions, recurringExpenses, purchaseItems, links,
+      loading, addProduct, updateProduct, deleteProduct, deleteLink, saveLink, generateSummary
     }}>
       {children}
     </DataContext.Provider>

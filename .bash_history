@@ -253,3 +253,23 @@ npx depcheck
 npm install
 npm run dev
 firebase-basics
+df -h 
+du -h . | sort -rh | head -n 10
+npm cache clean --force
+gemini
+Por favor, execute os seguintes comandos, um de cada vez:                                                                                                                                 
+gemini
+Por favor, execute os seguintes comandos, um de cada vez:                                                                                                                                 
+npm cache clean
+npm cache clean
+gemini
+npm cache clean --force
+du -hs $(ls -A)
+rm source.zip
+rm -rf .npm
+rm -rf .cache .codeoss .next
+rm -rf node_modules
+npm run dev
+npm install tailwindcss-animate
+npm run dev
+npm install -D autoprefixer
